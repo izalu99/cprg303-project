@@ -1,0 +1,228 @@
+{
+    "questions": [
+        {
+            "id": 1,
+            "category": "Object Oriented Programming",
+            "question": "What is encapsulation?",
+            "choices": ["A. Data hiding", "B. Inheritance", "C. Polymorphism", "D. Abstraction"],
+            "correctAnswer": "A. Data hiding"
+        },
+        {
+            "id": 2,
+            "category": "Data Structures",
+            "question": "Which data structure uses LIFO order?",
+            "choices": ["A. Queue", "B. Stack", "C. Linked List", "D. Tree"],
+            "correctAnswer": "B. Stack"
+        },
+        {
+            "id": 3,
+            "category": "Data Structures",
+            "question": "What is the main advantage of a doubly linked list over a singly linked list?",
+            "choices": ["A. Faster traversal", "B. Requires less memory", "C. Easier to implement", "D. Allows backward traversal"],
+            "correctAnswer": "D. Allows backward traversal"
+        },
+        {
+            "id": 4,
+            "category": "Time and Space Complexity",
+            "question": "What is the time complexity of bubble sort?",
+            "choices": ["A. O(n)", "B. O(n log n)", "C. O(n^2)", "D. O(log n)"],
+            "correctAnswer": "C. O(n^2)"
+        },
+        {
+            "id": 5,
+            "category": "Sorting Algorithms",
+            "question": "Which sorting algorithm is known for its divide-and-conquer approach?",
+            "choices": ["A. Bubble Sort", "B. Merge Sort", "C. Quick Sort", "D. Selection Sort"],
+            "correctAnswer": "B. Merge Sort"
+        },
+        {
+            "id": 6,
+            "category": "PL/SQL Concepts",
+            "question": "What is an anonymous block in PL/SQL?",
+            "choices": ["A. A block with no name", "B. A block with no body", "C. A block with no variables", "D. A block with no loops"],
+            "correctAnswer": "A. A block with no name"
+        },
+        {
+            "id": 7,
+            "category": "PL/SQL Concepts",
+            "question": "Which PL/SQL construct is used for error handling?",
+            "choices": ["A. Loops", "B. Procedures", "C. Exception handling", "D. Triggers"],
+            "correctAnswer": "C. Exception handling"
+        },
+        {
+            "id": 8,
+            "category": "Object Oriented Programming",
+            "question": "What is polymorphism?",
+            "choices": ["A. Data hiding", "B. Inheritance", "C. Method overloading", "D. Abstraction"],
+            "correctAnswer": "C. Method overloading"
+        },
+        {
+            "id": 9,
+            "category": "Data Structures",
+            "question": "Which data structure uses FIFO order?",
+            "choices": ["A. Stack", "B. Queue", "C. Linked List", "D. Tree"],
+            "correctAnswer": "B. Queue"
+        },
+        {
+            "id": 10,
+            "category": "Data Structures",
+            "question": "What is the purpose of a hash table?",
+            "choices": ["A. Sorting data", "B. Storing key-value pairs", "C. Managing linked lists", "D. Binary search"],
+            "correctAnswer": "B. Storing key-value pairs"
+        },
+        {
+            "id": 11,
+            "category": "Time and Space Complexity",
+            "question": "What is the space complexity of quicksort?",
+            "choices": ["A. O(n)", "B. O(n log n)", "C. O(n^2)", "D. O(log n)"],
+            "correctAnswer": "B. O(n log n)"
+        },
+        {
+            "id": 12,
+            "category": "Sorting Algorithms",
+            "question": "Which sorting algorithm is known for its in-place sorting?",
+            "choices": ["A. Bubble Sort", "B. Merge Sort", "C. Quick Sort", "D. Selection Sort"],
+            "correctAnswer": "C. Quick Sort"
+        },
+        {
+            "id": 13,
+            "category": "PL/SQL Concepts",
+            "question": "What is the purpose of a stored procedure?",
+            "choices": ["A. Handling exceptions", "B. Executing SQL queries", "C. Declaring variables", "D. Defining triggers"],
+            "correctAnswer": "B. Executing SQL queries"
+        },
+        {
+            "id": 14,
+            "category": "PL/SQL Concepts",
+            "question": "What is a cursor in PL/SQL?",
+            "choices": ["A. A database index", "B. A loop control structure", "C. A query result set", "D. A conditional statement"],
+            "correctAnswer": "C. A query result set"
+        },
+        {
+            "id": 15,
+            "category": "Object Oriented Programming",
+            "question": "What is inheritance?",
+            "choices": ["A. Data hiding", "B. Code reusability", "C. Method overloading", "D. Encapsulation"],
+            "correctAnswer": "B. Code reusability"
+        },
+        {
+            "id": 16,
+            "category": "Data Structures",
+            "question": "Which data structure is best suited for searching?",
+            "choices": ["A. Stack", "B. Queue", "C. Linked List", "D. Tree"],
+            "correctAnswer": "D. Tree"
+        },
+        {
+            "id": 17,
+            "category": "Data Structures",
+            "question": "What is the purpose of a binary tree?",
+            "choices": ["A. Storing sorted data", "B. Implementing queues", "C. Searching in O(1) time", "D. Random data storage"],
+            "correctAnswer": "A. Storing sorted data"
+        },
+        {
+            "id": 18,
+            "category": "Time and Space Complexity",
+            "question": "What is the time complexity of insertion sort?",
+            "choices": ["A. O(n)", "B. O(n log n)", "C. O(n^2)", "D. O(log n)"],
+            "correctAnswer": "C. O(n^2)"
+        },
+        {
+            "id": 19,
+            "category": "Sorting Algorithms",
+            "question": "Which sorting algorithm is known for its simplicity and inefficiency on large lists?",
+            "choices": ["A. Bubble Sort", "B. Merge Sort", "C. Quick Sort", "D. Selection Sort"],
+            "correctAnswer": "A. Bubble Sort"
+        },
+        {
+            "id": 20,
+            "category": "PL/SQL Concepts",
+            "question": "What is a trigger in PL/SQL?",
+            "choices": ["A. A procedural statement", "B. A database index", "C. A loop control structure", "D. A stored procedure"],
+            "correctAnswer": "A. A procedural statement"
+        },
+        {
+            "id": 21,
+            "category": "PL/SQL Concepts",
+            "question": "What is the purpose of a stored function?",
+            "choices": ["A. Handling exceptions", "B. Executing SQL queries", "C. Declaring variables", "D. Defining triggers"],
+            "correctAnswer": "B. Executing SQL queries"
+        },
+        {
+            "id": 22,
+            "category": "Object Oriented Programming",
+            "question": "What is abstraction?",
+            "choices": ["A. Data hiding", "B. Code reusability", "C. Method overloading", "D. Encapsulation"],
+            "correctAnswer": "A. Data hiding"
+        },
+        {
+            "id": 23,
+            "category": "Data Structures",
+            "question": "What is the purpose of a linked list?",
+            "choices": ["A. Storing sorted data", "B. Implementing queues", "C. Searching in O(1) time", "D. Random data storage"],
+            "correctAnswer": "D. Random data storage"
+        },
+        {
+            "id": 24,
+            "category": "Data Structures",
+            "question": "What is the purpose of a binary search tree?",
+            "choices": ["A. Storing sorted data", "B. Implementing queues", "C. Searching in O(1) time", "D. Random data storage"],
+            "correctAnswer": "A. Storing sorted data"
+        },
+        {
+            "id": 25,
+            "category": "Time and Space Complexity",
+            "question": "What is the time complexity of merge sort?",
+            "choices": ["A. O(n)", "B. O(n log n)", "C. O(n^2)", "D. O(log n)"],
+            "correctAnswer": "B. O(n log n)"
+        },
+        {
+            "id": 26,
+            "category": "Sorting Algorithms",
+            "question": "Which sorting algorithm is known for its efficiency on large lists?",
+            "choices": ["A. Bubble Sort", "B. Merge Sort", "C. Quick Sort", "D. Selection Sort"],
+            "correctAnswer": "B. Merge Sort"
+        },
+        {
+            "id": 27,
+            "category": "PL/SQL Concepts",
+            "question": "Which PL/SQL construct is used for error handling?",
+            "choices": ["A. Loops", "B. Procedures", "C. Exception handling", "D. Triggers"],
+            "correctAnswer": "C. Exception handling"
+        },
+        {
+            "id": 28,
+            "category": "Object Oriented Programming",
+            "question": "What is inheritance?",
+            "choices": ["A. Data hiding", "B. Code reusability", "C. Method overloading", "D. Encapsulation"],
+            "correctAnswer": "B. Code reusability"
+        },
+        {
+            "id": 29,
+            "category": "Data Structures",
+            "question": "Which data structure is best suited for searching?",
+            "choices": ["A. Stack", "B. Queue", "C. Linked List", "D. Tree"],
+            "correctAnswer": "D. Tree"
+        },
+        {
+            "id": 30,
+            "category": "Data Structures",
+            "question": "What is the purpose of a binary tree?",
+            "choices": ["A. Storing sorted data", "B. Implementing queues", "C. Searching in O(1) time", "D. Random data storage"],
+            "correctAnswer": "A. Storing sorted data"
+        },
+        {
+            "id": 31,
+            "category": "Time and Space Complexity",
+            "question": "What is the time complexity of insertion sort?",
+            "choices": ["A. O(n)", "B. O(n log n)", "C. O(n^2)", "D. O(log n)"],
+            "correctAnswer": "C. O(n^2)"
+        },
+        {
+            "id": 32,
+            "category": "Sorting Algorithms",
+            "question": "Which sorting algorithm is known for its simplicity and inefficiency on large lists?",
+            "choices": ["A. Bubble Sort", "B. Merge Sort", "C. Quick Sort", "D. Selection Sort"],
+            "correctAnswer": "A. Bubble Sort"
+        }
+    ]
+} 

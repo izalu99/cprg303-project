@@ -79,6 +79,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'gray',
     marginBottom: 8,
+    borderRadius: 0.25,
+
   },
   answerContainer: {
     marginTop: 20,
