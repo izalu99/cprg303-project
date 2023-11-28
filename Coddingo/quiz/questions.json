@@ -1,5 +1,4 @@
-{
-    "questions": [
+[
         {
             "id": 1,
             "category": "Object Oriented Programming",
@@ -225,4 +224,3 @@
             "correctAnswer": "A. Bubble Sort"
         }
     ]
-} 
