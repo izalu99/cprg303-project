@@ -95,13 +95,16 @@ function QuizComponent({ questions }) {
 
     return (
         <View style={styles.container}>
-          <Text style={styles.header}>Programming Quiz</Text>
+          <Text style={styles.header}>Level 1</Text>
 
           {/* Display question text */}
-          <Text>{questions[currentQuestionIndex].question}</Text>
+          <Text style={{marginTop:40, fontSize:25, width:'90%', alignContent:'center', textAlign:'center'}}>
+            {questions[currentQuestionIndex].question}
+          </Text>
 
           {/* Display choices */}
-          <FlatList
+          <FlatList 
+            style={{ width: '80%', marginTop: 20, }}
             data={questions[currentQuestionIndex].choices}
             renderItem={renderChoice}
             keyExtractor={(item) => item}
@@ -114,7 +117,7 @@ function QuizComponent({ questions }) {
             onPress={handlePrevPress}
             disabled={prevQuestionIndex === null}
             >
-              <Text>Previous</Text>
+              <Text style={{fontWeight:'bold'}}>Previous</Text>
             </TouchableOpacity>
             
             {/* Next button to move to the next question*/}
@@ -123,7 +126,7 @@ function QuizComponent({ questions }) {
             onPress={handleNextPress}
             disabled={!answered}
             >
-                <Text>Next</Text>
+                <Text style={{fontWeight:'bold'}}>Next</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -139,9 +142,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightblue',
   },
   header: {
-    fontSize: 20,
+    fontSize: 35,
     fontWeight: 'bold',
     marginBottom: 16,
+    marginTop: 30,
   },
   choice: {
     fontSize: 16,
@@ -150,37 +154,36 @@ const styles = StyleSheet.create({
     backgroundColor: 'yellow',
     marginBottom: 8,
     borderRadius: 5,
+    width: '80%',
   },
+  correctMarker: {
+    marginLeft: 'auto',
+    color: 'green',
+    fontSize: 20,
+  },
+  // choice container has both choice and correctMarker
   choiceContainer:{
     flexDirection: 'row', // display choices horizontally
     alignItems: 'center',
     marginBottom: 8, // space between choices
     justifyContent: 'space-between', // space between choices and markers
   },
-  correctMarker: {
-    marginLeft: 8,
-    color: 'green',
-    fontSize: 20,
-  },
-  incorrectMarker: {
-    position: 'absolute',
-    top: 4,
-    right: 4,
-    color: 'red',
-    fontSize: 20,
-  },
   navButtonsContainer:{
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    marginTop: 3,
-    width: '100%',
-    borderColor: 'gray',
+    marginTop: 8,
+    width: '80%',
+    padding: 10,
+    backgroundColor: 'transparent',
   },
   navButton: {
     marginTop: 3,
     padding: 10,
     backgroundColor: 'yellow',
     borderRadius: 5,
+    alignContent: 'center',
+    alignItems: 'center',
+    width: '30%',
   },
 });
 
