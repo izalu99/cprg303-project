@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   View, 
   Text, 
@@ -21,7 +21,7 @@ function QuizComponent({ questions }) {
             // Move to the next question, if there are more
             setPrevQuestionIndex(currentQuestionIndex);
             setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-            setAnswered(false);
+            //setAnswered(false);
         } else {
             // Handle end of the quiz
             alert('End of the quiz!');
@@ -43,6 +43,30 @@ function QuizComponent({ questions }) {
         }
     };
 
+    
+
+    // use useEffect to update the state of answered
+    useEffect(() => {
+        // Check if the current question has already been answered
+        if (userSelectedChoices[currentQuestionIndex] !== null) {
+            setAnswered(true);
+        } else {
+            setAnswered(false);
+        }
+    }, [currentQuestionIndex, userSelectedChoices]);
+
+
+    // use useEffect to show correct answer when the user selects an answer
+    useEffect((choice) => {
+        // Check if the current question has already been answered
+        if (answered){
+          //update the userSelectedChoices array
+          const updatedChoices = [...userSelectedChoices];
+          updatedChoices[currentQuestionIndex] = choice;
+          setUserSelectedChoices(updatedChoices);
+        }
+    }, [answered]);
+
     // render function for each choice
     const renderChoice = ({ item }) => {
         const isCorrect = item === questions[currentQuestionIndex].correctAnswer;
@@ -55,11 +79,14 @@ function QuizComponent({ questions }) {
             borderWidth: isSelected ? 2 : 1,
         };
 
+
         // Display a marker for the correct answer if the question has been answered
         // use a function
         const marker = isCorrect && answered ? (
-            <Text style={styles.correctMarker}>&#10004;</Text> // check mark hex code is 10004, &# is for syntax/reading: &#10004
-        ) : null;
+          <Text style={styles.correctMarker}>&#10004;</Text> // check mark hex code is 10004, &# is for syntax/reading: &#10004
+      ) : null;
+
+        
         
 
         return (
@@ -89,8 +116,9 @@ function QuizComponent({ questions }) {
         updatedChoices[currentQuestionIndex] = choice;
         setUserSelectedChoices(updatedChoices);
 
-        // Set answered status to true
+        // Set answered to true
         setAnswered(true);
+ 
     };
 
     return (
@@ -124,7 +152,6 @@ function QuizComponent({ questions }) {
             <TouchableOpacity 
             style={styles.navButton} 
             onPress={handleNextPress}
-            disabled={!answered}
             >
                 <Text style={{fontWeight:'bold'}}>Next</Text>
             </TouchableOpacity>
