@@ -190,21 +190,21 @@
             "correctAnswer": "C. O(n^2)"
         },
         {
-            "id": 28,
+            "id": 29,
             "category": "PL/SQL Concepts",
             "question": "Which of the following is a transaction control statement?",
             "choices": ["A. WHEN", "B. SERVEROUTPUT ON", "DECLARE", "D. COMMIT"],
             "correctAnswer": "D. COMMIT"
         },
         {
-            "id": 29,
+            "id": 30,
             "category": "Sorting Algorithms",
             "question": "Which sorting algorithm selects a 'pivot' element and partitions the other elements into two sub-lists?",
             "choices": ["A. Bubble Sort", "B. Insertion Sort", "C. Quick Sort", "D. Selection Sort"],
             "correctAnswer": "C. Quick Sort"
         },
         {
-            "id": 30,
+            "id": 31,
             "category": "Time and Space Complexity",
             "question": "Which time complexity represents a more efficient algorithm among the following?",
             "choices": ["A. O(n)", "B. O(n log n)", "C. O(n^2)", "D. O(2^n)"],

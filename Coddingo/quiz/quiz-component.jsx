@@ -1,69 +1,81 @@
-
-
 import React, { useState } from 'react';
 import { 
   View, 
   Text, 
   TouchableOpacity, 
   FlatList, 
-  StyleSheet } from 'react-native';
+  StyleSheet 
+} from 'react-native';
 
-function QuizComponent({ questions }){
+function QuizComponent({ questions }) {
 
-    // let's log the questions to the console to check if they are passed correctly
-    console.log('Questions:',questions);
-
-    // state variable to keep track of the current question index
+    // state variables
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-
-    // state variables for userSelectedChoice and prevQuestion
-    const [userSelectedChoice, setUserSelectedChoice] = useState(null);
+    const [userSelectedChoices, setUserSelectedChoices] = useState(Array(questions.length).fill(null));
     const [prevQuestionIndex, setPrevQuestionIndex] = useState(null);
-    
-    
+    const [answered, setAnswered] = useState(false);
+
     // event handler for the Next button
     const handleNextPress = () => {
         if (currentQuestionIndex < questions.length - 1) {
-        // Move to the next question, if there are more
-        setPrevQuestionIndex(currentQuestionIndex); // save the current question index as the previous index
-        setCurrentQuestionIndex((prevIndex) => prevIndex + 1); // get the next question index
+            // Move to the next question, if there are more
+            setPrevQuestionIndex(currentQuestionIndex);
+            setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+            setAnswered(false);
         } else {
-        // Handle end of the quiz
-        alert('End of the quiz!');
+            // Handle end of the quiz
+            alert('End of the quiz!');
         }
     };
 
     // event handler for the Previous button
     const handlePrevPress = () => {
         if (prevQuestionIndex !== null) {
-        // Move to the previous question, if there are any
-        // set the current question index to the previous one
-        setCurrentQuestionIndex(prevQuestionIndex); 
-        // reset the previous question index to null
-        setPrevQuestionIndex(null); 
+            // Move to the previous question
+            // set currentQuestionIndex to the previous question index
+            setCurrentQuestionIndex(prevQuestionIndex);
+            // set prevQuestionIndex to the previous of the previous question index 
+            
+            if (prevQuestionIndex > 0) {
+                setPrevQuestionIndex(prevQuestionIndex - 1);
+            }
+            //setAnswered(false);
         }
     };
 
     // render function for each choice
     const renderChoice = ({ item }) => {
-      // make booleans to identify if the choice is correct
-      // and selected by the user (if incorrect there should be an alert)
-      const isCorrect = item === questions[currentQuestionIndex].correctAnswer;
-      const isSelected = item == questions[currentQuestionIndex].correctAnswer;
-      // define the styles based on the booleans
-      const choiceStyle = {
-        ...styles.choice,
-        borderColor: isSelected ? 'blue' : 'gray',
-        backgroundColor: isCorrect ? 'lightgreen' : 'white',
-      };
-      return (
-        <TouchableOpacity 
-        style={choiceStyle} 
-        onPress={() => handleChoicePress(item)}>
+        const isCorrect = item === questions[currentQuestionIndex].correctAnswer;
+        const isSelected = item === userSelectedChoices[currentQuestionIndex];
+
+        // Define styles based on correctness, selection, and answered status
+        const choiceStyle = {
+            ...styles.choice,
+            borderColor: isSelected ? 'blue' : 'transparent',
+            borderWidth: isSelected ? 2 : 1,
+        };
+
+        // Display a marker for the correct answer if the question has been answered
+        // use a function
+        const marker = isCorrect && answered ? (
+            <Text style={styles.correctMarker}>&#10004;</Text> // check mark hex code is 10004, &# is for syntax/reading: &#10004
+        ) : null;
         
-        <Text>{item}</Text>
-        </TouchableOpacity>
-      )
+
+        return (
+            <View style={styles.choiceContainer}>
+              <TouchableOpacity 
+              style={choiceStyle} 
+              onPress={() => handleChoicePress(item)}
+              disabled={answered}
+              >
+                <Text>{item}</Text>
+              </TouchableOpacity>
+
+              {/* Display the marker */}
+              {marker}
+            </View>
+        );
     };
 
     // event handler for when a choice is pressed
@@ -72,15 +84,13 @@ function QuizComponent({ questions }){
         console.log('Selected Choice:', choice);
         console.log('Correct Answer:', questions[currentQuestionIndex].correctAnswer);
         
-        // Save the choice in the state variable
-        setUserSelectedChoice(choice);
+        // Update the array of user-selected choices
+        const updatedChoices = [...userSelectedChoices];
+        updatedChoices[currentQuestionIndex] = choice;
+        setUserSelectedChoices(updatedChoices);
 
-        // Check if the answer is correct
-        if (choice === questions[currentQuestionIndex].correctAnswer) {
-        alert('Correct!');
-        } else {
-        alert('Incorrect!');
-        }
+        // Set answered status to true
+        setAnswered(true);
     };
 
     return (
@@ -97,18 +107,22 @@ function QuizComponent({ questions }){
             keyExtractor={(item) => item}
           />
 
-          {/* Previous button to move to the previous question*/}
+          {/* Navigation buttons */}
           <View style={styles.navButtonsContainer}>
             <TouchableOpacity
             style={styles.navButton}
-            onPress={handlePrevPress}>
+            onPress={handlePrevPress}
+            disabled={prevQuestionIndex === null}
+            >
               <Text>Previous</Text>
             </TouchableOpacity>
             
             {/* Next button to move to the next question*/}
             <TouchableOpacity 
             style={styles.navButton} 
-            onPress={handleNextPress}>
+            onPress={handleNextPress}
+            disabled={!answered}
+            >
                 <Text>Next</Text>
             </TouchableOpacity>
           </View>
@@ -122,6 +136,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
+    backgroundColor: 'lightblue',
   },
   header: {
     fontSize: 20,
@@ -132,8 +147,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
     padding: 8,
     borderWidth: 1,
-    borderColor: 'gray',
+    backgroundColor: 'yellow',
     marginBottom: 8,
+    borderRadius: 5,
+  },
+  choiceContainer:{
+    flexDirection: 'row', // display choices horizontally
+    alignItems: 'center',
+    marginBottom: 8, // space between choices
+    justifyContent: 'space-between', // space between choices and markers
+  },
+  correctMarker: {
+    marginLeft: 8,
+    color: 'green',
+    fontSize: 20,
+  },
+  incorrectMarker: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+    color: 'red',
+    fontSize: 20,
   },
   navButtonsContainer:{
     flexDirection: 'row',
@@ -145,11 +179,9 @@ const styles = StyleSheet.create({
   navButton: {
     marginTop: 3,
     padding: 10,
-    backgroundColor: 'lightblue',
+    backgroundColor: 'yellow',
     borderRadius: 5,
   },
 });
 
-
 export default QuizComponent;
-
