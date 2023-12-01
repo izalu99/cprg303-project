@@ -5,6 +5,7 @@ import {
   TouchableOpacity, 
   FlatList, 
   StyleSheet, 
+  Alert,
 } from 'react-native';
 
 function QuizComponent({ questions }) {
@@ -15,8 +16,9 @@ function QuizComponent({ questions }) {
     const [prevQuestionIndex, setPrevQuestionIndex] = useState(null);
     const [answered, setAnswered] = useState(false);
     const [score, setScore] = useState(0);
+    const [submitted, setSubmitted] = useState(false);
 
-    
+
 
     // event handler for the Next button
     const handleNextPress = () => {
@@ -135,47 +137,89 @@ function QuizComponent({ questions }) {
       );
     };
 
+    // function to show a confirmation alert when the user presses the Submit button
+    const showSubmitAlert = () => {
+      Alert.alert(
+        'Submit Quiz',
+        'Are you sure you want to submit the quiz?',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'Submit',
+            onPress: () => setSubmitted(true),
+          },
+        ],
+        { cancelable: false },
+      );
+    };
+
     // render the score
     const renderScore = () => {
-      if (currentQuestionIndex === questions.length - 1) {
+      if (submitted) {
+        const score = calculateScore();
         return (
           <View style={styles.scoreContainer}>
             <Text style={styles.scoreText}>Your Score: {score}/{questions.length}</Text>
           </View>
         );
       }
+      return null;
+    };
+
+    // calculate the score
+    const calculateScore = () => {
+      let score = 0;
+      for (let i = 0; i < questions.length; i++) {
+        if (userSelectedChoices[i] === questions[i].correctAnswer) {
+          score++;
+        }
+      }
+      return score;
+    };
+
+    // event handler for the Submit button
+    const handleSubmitPress = () => {
+      // use showSubmitAlert function
+      showSubmitAlert();
+      
     };
 
     
 
-    return (
-        <View style={styles.container}>
-          <Text style={styles.header}>Level 1</Text>
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Level 1</Text>
 
-          {/* Display question and choices*/}
-          <View style={styles.questionChoices}>
-            {/* Display question text */}
-            <View style={styles.questionContainer}>
-              <Text style={styles.question}>
-                {currentQuestionIndex + 1}. {questions[currentQuestionIndex].question}
-              </Text>
-            </View>
-            
-            {/* Display choices */}
-            <FlatList 
-              style={styles.choiceList}
-              data={questions[currentQuestionIndex].choices}
-              renderItem={renderChoice}
-              keyExtractor={(item) => item}
-            />
-          </View>
+      {/* Display question and choices*/}
+      <View style={styles.questionChoices}>
+        {/* Display question text */}
+        <View style={styles.questionContainer}>
+          <Text style={styles.question}>
+            {currentQuestionIndex + 1}. {questions[currentQuestionIndex].question}
+          </Text>
+        </View>
+        
+        {/* Display choices */}
+        <FlatList 
+          style={styles.choiceList}
+          data={questions[currentQuestionIndex].choices}
+          renderItem={renderChoice}
+          keyExtractor={(item) => item}
+        />
+      </View>
 
-          {/* Display the score */}
-          {renderScore()}
-          
+      {/* Display the score */}
+      {renderScore()}
+      
 
-          {/* Navigation buttons */}
-          <View style={styles.navButtonsContainer}>
+      {/* Navigation buttons */}
+      <View style={styles.navButtonsContainer}>
+        {/* Previous button*/}
+        {
+          prevQuestionIndex !== null && currentQuestionIndex > 0 ? (
             <TouchableOpacity
             style={styles.navButton}
             onPress={handlePrevPress}
@@ -183,17 +227,32 @@ function QuizComponent({ questions }) {
             >
               <Text style={styles.buttonText}>Previous</Text>
             </TouchableOpacity>
-            
-            {/* Next button to move to the next question*/}
+          ) : (
+            <View style={[styles.navButton, {backgroundColor:'transparent'}]}/>
+          )
+        }
+        
+        {/* Next button*/}
+        {
+          currentQuestionIndex < questions.length - 1 ? (
             <TouchableOpacity 
             style={styles.navButton} 
             onPress={handleNextPress}
             >
-                <Text style={styles.buttonText}>Next</Text>
+              <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>
-          </View>
-        </View>
-    );
+          ) : (
+            <TouchableOpacity 
+            style={styles.navButton} 
+            onPress={handleSubmitPress}
+            >
+              <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>
+          )
+        }
+      </View>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -248,6 +307,8 @@ const styles = StyleSheet.create({
   choice: {
     fontSize: 16,
     padding: 12,
+    borderWidth: 1,
+    borderColor: 'transparent',
     backgroundColor: '#fdcc04',
     marginBottom: 8,
     borderRadius: 12,
