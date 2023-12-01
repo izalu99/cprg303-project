@@ -4,7 +4,7 @@ import {
   Text, 
   TouchableOpacity, 
   FlatList, 
-  StyleSheet 
+  StyleSheet, 
 } from 'react-native';
 
 function QuizComponent({ questions }) {
@@ -14,6 +14,9 @@ function QuizComponent({ questions }) {
     const [userSelectedChoices, setUserSelectedChoices] = useState(Array(questions.length).fill(null));
     const [prevQuestionIndex, setPrevQuestionIndex] = useState(null);
     const [answered, setAnswered] = useState(false);
+    const [score, setScore] = useState(0);
+
+    
 
     // event handler for the Next button
     const handleNextPress = () => {
@@ -21,10 +24,10 @@ function QuizComponent({ questions }) {
             // Move to the next question, if there are more
             setPrevQuestionIndex(currentQuestionIndex);
             setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-            //setAnswered(false);
+            setAnswered(false);
         } else {
             // Handle end of the quiz
-            alert('End of the quiz!');
+            alert('End of the quiz! Your score is ' + score + '/' + questions.length + '.');
         }
     };
 
@@ -39,21 +42,10 @@ function QuizComponent({ questions }) {
             if (prevQuestionIndex > 0) {
                 setPrevQuestionIndex(prevQuestionIndex - 1);
             }
-            //setAnswered(false);
+            
         }
     };
 
-    
-
-    // use useEffect to update the state of answered
-    useEffect(() => {
-        // Check if the current question has already been answered
-        if (userSelectedChoices[currentQuestionIndex] !== null) {
-            setAnswered(true);
-        } else {
-            setAnswered(false);
-        }
-    }, [currentQuestionIndex, userSelectedChoices]);
 
 
     // use useEffect to show correct answer when the user selects an answer
@@ -67,76 +59,120 @@ function QuizComponent({ questions }) {
         }
     }, [answered]);
 
-    // render function for each choice
-    const renderChoice = ({ item }) => {
-        const isCorrect = item === questions[currentQuestionIndex].correctAnswer;
-        const isSelected = item === userSelectedChoices[currentQuestionIndex];
-
-        // Define styles based on correctness, selection, and answered status
-        const choiceStyle = {
-            ...styles.choice,
-            borderColor: isSelected ? 'blue' : 'transparent',
-            borderWidth: isSelected ? 2 : 1,
-        };
-
-
-        // Display a marker for the correct answer if the question has been answered
-        // use a function
-        const marker = isCorrect && answered ? (
-          <Text style={styles.correctMarker}>&#10004;</Text> // check mark hex code is 10004, &# is for syntax/reading: &#10004
-      ) : null;
-
-        
-        
-
-        return (
-            <View style={styles.choiceContainer}>
-              <TouchableOpacity 
-              style={choiceStyle} 
-              onPress={() => handleChoicePress(item)}
-              disabled={answered}
-              >
-                <Text>{item}</Text>
-              </TouchableOpacity>
-
-              {/* Display the marker */}
-              {marker}
-            </View>
-        );
-    };
 
     // event handler for when a choice is pressed
     const handleChoicePress = (choice) => {
-        // Log the choice to the console for debugging purposes
-        console.log('Selected Choice:', choice);
-        console.log('Correct Answer:', questions[currentQuestionIndex].correctAnswer);
-        
-        // Update the array of user-selected choices
-        const updatedChoices = [...userSelectedChoices];
-        updatedChoices[currentQuestionIndex] = choice;
-        setUserSelectedChoices(updatedChoices);
+      // Log the choice to the console for debugging purposes
+      console.log('Selected Choice:', choice);
+      console.log('Correct Answer:', questions[currentQuestionIndex].correctAnswer);
+      //update the userSelectedChoices array
+      const updatedChoices = [...userSelectedChoices];
+      updatedChoices[currentQuestionIndex] = choice;
+      setUserSelectedChoices(updatedChoices);
 
-        // Set answered to true
-        setAnswered(true);
- 
+      // Set answered to true after the user selects an answer
+      setAnswered(true);
+  };
+
+    // use useEffect to update the state of answered
+    useEffect(() => {
+      // Check if the current question has already been answered
+      if (userSelectedChoices[currentQuestionIndex] !== null) {
+          setAnswered(true);
+      } else {
+          setAnswered(false);
+      }
+    }, [currentQuestionIndex, userSelectedChoices]);
+
+
+    // use useEffect to update the score
+    useEffect(() => {
+      // Check if the current question has already been answered
+      if (answered) {
+          // Check if the user selected the correct answer
+          const isCorrect = userSelectedChoices[currentQuestionIndex] === questions[currentQuestionIndex].correctAnswer;
+          if (isCorrect) {
+            setScore((prevScore) => prevScore + 1);
+          }
+      }
+      }, [answered, currentQuestionIndex, userSelectedChoices, questions]);
+
+
+    //render function for each choice
+    const renderChoice = ({ item }) => {
+      const isCorrect = item === questions[currentQuestionIndex].correctAnswer;
+      const isSelected = item === userSelectedChoices[currentQuestionIndex];
+
+      // Define styles based on correctness, selection, and answered status
+      const choiceStyle = {
+        ...styles.choice,
+        borderWidth: isSelected ? 2 : 0,
+      };
+
+      const selectedChoiceStyle = isSelected && answered ? {
+        borderColor: 'blue',
+      } : {};
+
+
+      // Display a marker for the correct answer if the question has been answered
+      // use a function
+      const marker = isCorrect && answered ? (
+        <Text style={styles.correctMarker}>&#10004;</Text> // check mark hex code is 10004, &# is for syntax/reading: &#10004
+      ) : null;
+
+      return (
+          <View style={styles.choiceContainer}>
+            <TouchableOpacity 
+            style={[choiceStyle, selectedChoiceStyle]} 
+            onPress={() => handleChoicePress(item)}
+            disabled={answered}>
+              <Text>{item}</Text>
+            </TouchableOpacity>
+
+            {/* Display the marker */}
+            {marker}
+          </View>
+      );
     };
+
+    // render the score
+    const renderScore = () => {
+      if (currentQuestionIndex === questions.length - 1) {
+        return (
+          <View style={styles.scoreContainer}>
+            <Text style={styles.scoreText}>Your Score: {score}/{questions.length}</Text>
+          </View>
+        );
+      }
+    };
+
+    
 
     return (
         <View style={styles.container}>
           <Text style={styles.header}>Level 1</Text>
 
-          {/* Display question text */}
-          <Text style={{marginTop:40, fontSize:25, width:'90%', alignContent:'center', textAlign:'center'}}>
-            {questions[currentQuestionIndex].question}
-          </Text>
+          {/* Display question and choices*/}
+          <View style={styles.questionChoices}>
+            {/* Display question text */}
+            <View style={styles.questionContainer}>
+              <Text style={styles.question}>
+                {currentQuestionIndex + 1}. {questions[currentQuestionIndex].question}
+              </Text>
+            </View>
+            
+            {/* Display choices */}
+            <FlatList 
+              style={styles.choiceList}
+              data={questions[currentQuestionIndex].choices}
+              renderItem={renderChoice}
+              keyExtractor={(item) => item}
+            />
+          </View>
 
-          {/* Display choices */}
-          <FlatList 
-            style={{ width: '80%', marginTop: 20, }}
-            data={questions[currentQuestionIndex].choices}
-            renderItem={renderChoice}
-            keyExtractor={(item) => item}
-          />
+          {/* Display the score */}
+          {renderScore()}
+          
 
           {/* Navigation buttons */}
           <View style={styles.navButtonsContainer}>
@@ -145,7 +181,7 @@ function QuizComponent({ questions }) {
             onPress={handlePrevPress}
             disabled={prevQuestionIndex === null}
             >
-              <Text style={{fontWeight:'bold'}}>Previous</Text>
+              <Text style={styles.buttonText}>Previous</Text>
             </TouchableOpacity>
             
             {/* Next button to move to the next question*/}
@@ -153,7 +189,7 @@ function QuizComponent({ questions }) {
             style={styles.navButton} 
             onPress={handleNextPress}
             >
-                <Text style={{fontWeight:'bold'}}>Next</Text>
+                <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -166,25 +202,62 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: 'lightblue',
+    backgroundColor: '#77cff1',
   },
+  
   header: {
     fontSize: 35,
     fontWeight: 'bold',
     marginBottom: 16,
-    marginTop: 30,
+    marginTop: 20,
+  },
+
+  questionChoices: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '95%',
+    textAlign: 'center',
+    marginTop: 40,
+    backgroundColor: 'white',
+    marginBottom: 40,
+    borderRadius: 20,
+  },
+  question:{
+    fontSize: 20,
+    fontWeight: 'bold',
+    padding: 10,
+    width: '80%',
+    textAlign: 'center',
+    alignItems: 'center',
+  },
+  questionContainer:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '95%',
+    textAlign: 'center',
+    marginTop: 20,
+    backgroundColor: 'white',
+    marginBottom: 10,
+    borderColor: 'black',
+  },
+  choiceList:{
+    marginTop: 10,
   },
   choice: {
     fontSize: 16,
-    padding: 8,
-    borderWidth: 1,
-    backgroundColor: 'yellow',
+    padding: 12,
+    backgroundColor: '#fdcc04',
     marginBottom: 8,
-    borderRadius: 5,
+    borderRadius: 12,
+    textAlign: 'center',
+    alignItems: 'center',
+    leftMargin: 10,
     width: '80%',
   },
   correctMarker: {
-    marginLeft: 'auto',
+    marginLeft: 3,
     color: 'green',
     fontSize: 20,
   },
@@ -193,24 +266,36 @@ const styles = StyleSheet.create({
     flexDirection: 'row', // display choices horizontally
     alignItems: 'center',
     marginBottom: 8, // space between choices
-    justifyContent: 'space-between', // space between choices and markers
+    justifyContent: 'space-evenly', // space between choices and markers
+    width: '90%',
+    leftMargin: 20,
   },
   navButtonsContainer:{
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     marginTop: 8,
-    width: '80%',
+    width: '90%',
     padding: 10,
     backgroundColor: 'transparent',
   },
   navButton: {
     marginTop: 3,
     padding: 10,
-    backgroundColor: 'yellow',
-    borderRadius: 5,
+    backgroundColor: '#fdcc04',
+    borderRadius: 12,
     alignContent: 'center',
     alignItems: 'center',
     width: '30%',
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  scoreContainer: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: 'white',
+    borderRadius: 12,
   },
 });
 
